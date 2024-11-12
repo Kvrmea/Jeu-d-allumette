@@ -2,10 +2,11 @@
 // Fonction qui permet de voir le nombre d'allumette
 function nbrAlummette () {
     let totalAllumette = 50
+    let joueur = 1
 
    while (totalAllumette > 0) {
     // On demande à l'utilisateur combien d'allumettes il souhaite retirer
-    let removeAlummettes = Number(prompt(`Combien d'allumettes veut tu retirer ? Il en reste ${totalAllumette}. (Tu peux retirer entre 1 et 6 allumettes)`))
+    let removeAlummettes = Number(prompt(`Joueur ${joueur}, Combien d'allumettes veut tu retirer ? Il en reste ${totalAllumette}. (Tu peux retirer entre 1 et 6 allumettes)`))
 
     // Vérifie si la saisie est validé 
     if (isNaN(removeAlummettes) || removeAlummettes <= 0 || removeAlummettes > 6) {
@@ -27,8 +28,12 @@ function nbrAlummette () {
 
     // Vérifie si le joueur a gagné
     if (totalAllumette === 0) {
-        console.log("Félicitations ! T'es le meilleur. Tu as gagné !")
+        console.log(`Félicitations Joueur ${joueur}! T'es le meilleur. Tu as gagné !`)
+        break
     }
+
+    // Change de joueur pour le tour suivant
+    joueur = joueur === 1 ? 2 : 1
     
    }
 }
