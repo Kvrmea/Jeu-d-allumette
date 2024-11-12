@@ -1,3 +1,4 @@
+// Déclaration des variables globale 
 let totalAllumette = 50
 let nombreJoueurs = 0
 let joueur = 1
@@ -7,11 +8,13 @@ function startGame() {
     const playerInput = document.getElementById("players").value
     nombreJoueurs = Number(playerInput)
 
+    // Vérifie si le nombre de joueurs est valide (au moins 2)
     if (isNaN(nombreJoueurs) || nombreJoueurs < 2) {
         document.getElementById("errorMessage").textContent = "Veullez entrer un nombre de joueurs valide (au moins 2)."
         return
     } 
 
+    // Cache la config du jeu et affiche l'interfce de jeu
     document.querySelector(".game-setup").style.display = "none"
     document.querySelector(".game").style.display = "block"
     document.getElementById("remainingMatches").textContent = totalAllumette
@@ -19,14 +22,17 @@ function startGame() {
     document.getElementById("errorMessage").textContent = ""
 }
 
+// Fonction pour retirer les Allumettes
 function removeMatches() {
     const removeAllummettes = Number(document.getElementById("removeMatches").value)
 
+    // Vérifie que le nombre d'allumettes est valide (entre 1 et 6)
     if (isNaN(removeAllummettes) || removeAllummettes < 1 || removeAllummettes > 6) {
         document.getElementById("errorMessage").textContent = "Retirez entre 1 et 6 allumettes."
         return
     }
 
+    // Vérifie qu'il reste assez d'allumettes pour continuer
     if (removeAllummettes > totalAllumette) {
         document.getElementById("errorMessage").textContent = "Tu ne peux pas enlever plus d'allumettes qu'il n'en reste."
         return
@@ -37,6 +43,7 @@ function removeMatches() {
     document.getElementById("remainingMatches").textContent = totalAllumette
     document.getElementById("errorMessage").textContent = ""
 
+    // Vérifie so toutes les allumettes sont prises, + fin du jeu
     if (totalAllumette === 0) {
         document.getElementById("gameStatus").textContent = `Joueur ${joueur}! Tu n'as pas de chance ! C'est perdu!`
         document.getElementById("currentPlayer").style.display = "none"
