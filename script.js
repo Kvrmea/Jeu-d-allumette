@@ -1,48 +1,84 @@
-// étape 1 et 2
-// Fonction qui permet de voir le nombre d'allumette
-function jeuAllumettes () {
-    let totalAllumette = 50
-    let nombreJoueurs = Number(prompt("Combien de joueurs vont participer ?"))
+let totalAllumette = 50
+let nombreJoueurs = 0
+let joueur = 1
 
-    // Vérifie l'entrée pour le nombre de joueurs
-    while (isNaN(nombreJoueurs) || nombreJoueurs < 2) {
-        nombreJoueurs = Number(prompt("Veuillez entrer un nombre de joueurs valide (au moins 2)."))
-    }
+// Fonction qui lance le jeu
+function startGame() {
+    const playerInput = document.getElementById("players").value
+    nombreJoueurs = Number(playerInput)
 
-    let joueur = 1
+    if (isNaN(nombreJoueurs) || nombreJoueurs < 2) {
+        document.getElementById("errorMessage").textContent = "Veullez entrer un nombre de joueurs valide (au moins 2)."
+        return
+    } 
 
-   while (totalAllumette > 0) {
-    // On demande à l'utilisateur combien d'allumettes il souhaite retirer
-    let removeAllummettes = Number(prompt(`Joueur ${joueur}, Combien d'allumettes veut tu retirer ? Il en reste ${totalAllumette}. (Tu peux retirer entre 1 et 6 allumettes)`))
-
-    // Vérifie si la saisie est validé 
-    if (isNaN(removeAllummettes) || removeAllummettes <= 0 || removeAllummettes > 6) {
-        console.log("Retire entre 1 et 6 allumettes.")
-        continue
-    }
-
-    // Vérifie si l'utilisateur essaie de retirer + d'allumette qu'il en reste
-    if (removeAllummettes > totalAllumette) {
-        console.log("Tu ne peux pas enlevé plus d'allumette qu'il n'en reste")
-        continue
-    }
-
-    // Soustrait le nombre d'allumette demandé 
-    totalAllumette -= removeAllummettes
-
-    // Affiche le nombre d'allumette restantes
-    console.log(`Il reste ${totalAllumette} allumettes.`)
-
-    // Vérifie si le joueur a gagné
-    if (totalAllumette === 0) {
-        console.log(`Félicitations Joueur ${joueur}! T'es le meilleur. Tu as gagné !`)
-        break
-    }
-
-    // Change de joueur pour le tour suivant
-    joueur = (joueur % nombreJoueurs) + 1
-    
-   }
+    document.querySelector(".game-setup").style.display = "none"
+    document.querySelector(".game").style.display = "block"
+    document.getElementById("remainingMatches").textContent = totalAllumette
+    document.getElementById("playerNumber").textContent = joueur
+    document.getElementById("errorMessage").textContent = ""
 }
 
-jeuAllumettes()
+function removeMatches() {
+    const removeAllummettes = Number(document.getElementById("removeMatches").value)
+
+    if (isNaN(removeAllummettes) || removeAllummettes < 1 || removeAllummettes > 6) {
+        document.getElementById("errorMessage").textContent = "Retirez entre 1 et 6 allumettes."
+        return
+    }
+
+    if (removeAllummettes > totalAllumette) {
+        document.getElementById("errorMessage").textContent = "Tu ne peux pas enlever plus d'allumettes qu'il n'en reste."
+        return
+    }
+
+    // MAJ du jeu
+    totalAllumette -= removeAllummettes
+    document.getElementById("remainingMatches").textContent = totalAllumette
+    document.getElementById("errorMessage").textContent = ""
+
+    if (totalAllumette === 0) {
+        document.getElementById("gameStatus").textContent = `Joueur ${joueur}! Tu n'as pas de chance ! C'est perdu!`
+        document.getElementById("currentPlayer").style.display = "none"
+        document.getElementById("removeMatches").style.display = "none"
+        document.getElementById("restartButton").style.display = "inline"
+        return
+    }
+
+    // Change de joueur
+    joueur = (joueur % nombreJoueurs) + 1
+    document.getElementById("playerNumber").textContent = joueur    
+}
+
+// Fonction qui restart le jeu
+function restartGame() {
+    // Réinitialise les valeurs
+    totalAllumette = 50
+    joueur = 1
+    nombreJoueurs = 0
+
+    // Réinitialise l'interface utilisateur
+    document.querySelector(".game-setup").style.display = "block"
+    document.querySelector(".game").style.display = "none"
+    document.getElementById("currentPlayer").style.display = "block"
+    document.getElementById("removeMatches").style.display = "inline"
+    document.getElementById("restartButton").style.display = "none"
+    document.getElementById("gameStatus").textContent = ""
+    document.getElementById("errorMessage").textContent = ""
+    document.getElementById("players").value = ""
+    document.getElementById("removeMatches").value = ""
+}
+
+// Fonction pour le menu déroulant
+function toggleRules() {
+    const rulesDiv = document.getElementById("rules");
+    const rulesButton = document.getElementById("rulesButton");
+    
+    if (rulesDiv.style.display === "none") {
+        rulesDiv.style.display = "block";
+        rulesButton.textContent = "Cacher les Règles";
+    } else {
+        rulesDiv.style.display = "none";
+        rulesButton.textContent = "Règles du Jeu";
+    }
+}
