@@ -43,9 +43,9 @@ function removeMatches() {
     document.getElementById("remainingMatches").textContent = totalAllumette
     document.getElementById("errorMessage").textContent = ""
 
-    // Vérifie so toutes les allumettes sont prises, + fin du jeu
+    // Vérifie si toutes les allumettes sont prises, + fin du jeu
     if (totalAllumette === 0) {
-        document.getElementById("gameStatus").textContent = `Joueur ${joueur}! Tu n'as pas de chance ! C'est perdu!`
+        document.getElementById("gameStatus").textContent = `Joueur ${joueur}! Tu n'as pas de chance ! C'est perdu !`
         document.getElementById("currentPlayer").style.display = "none"
         document.getElementById("removeMatches").style.display = "none"
         document.getElementById("restartButton").style.display = "inline"
