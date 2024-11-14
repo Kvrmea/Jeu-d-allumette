@@ -10,7 +10,7 @@
     <header>
         <h1>Jeu des Allumettes</h1>
         <p>Retirez les allumettes avec stratégie et remportez la partie !</p>
-        <button id="rulesButton" onclick="toggleRules()">Règles du Jeu</button>
+        <button id="rulesButton">Règles du Jeu</button>
         
         <div id="rules" style="display: none;">
             <h2>Règles du Jeu</h2>
@@ -25,17 +25,22 @@
         <div class="game-setup">
             <label for="players">Nombre de joueur :</label>
             <input type="number" id="players" min="2" placeholder="Entrez le nombre de joueurs">
-            <button onclick="startGame()">Commencer le Jeu</button>
+            <button id="startBtn">Commencer le Jeu</button>
         </div>
 
         <div class="game" style="display: none;">
             <p id="gameStatus">Il reste <span id="remainingMatches">50</span> allumettes.</p>
             <p id="currentPlayer">Joueur <span id="playerNumber">1</span>, combien d'allumettes voulez-vous retirer ?</p>
             <input type="number" id="removeMatches" min="1" max="6" placeholder="Entre 1 et 6">
-            <button onclick="removeMatches()">Retirer</button>
+            <button>Retirer</button>
+
+            <div id="texteEnDirect">Ton choix d'allumettes :</div>
+            <div id="messageUser"></div>
+            
             <button id="restartButton" onclick="restartGame()" style="display:none;">Recommencer</button>
             <p id="errorMessage" style="color: red;"></p>
         </div>
+
     </main>
 
     <footer>
