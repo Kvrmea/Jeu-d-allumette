@@ -2,6 +2,7 @@
 let totalAllumette = 50
 let nombreJoueurs = 0
 let joueur = 1
+let playerNames = []
 
 // Sélection des éléments HTML pour le message en direct
 const textInLive = document.getElementById("texteEnDirect")
@@ -10,19 +11,29 @@ const zoneMessage = document.getElementById("messageUser")
 // Fonction qui lance le jeu
 function startGame() {
     const playerInput = document.getElementById("players").value
+    const namesInput = document.getElementById("playerNames").value
     nombreJoueurs = Number(playerInput)
 
     // Vérifie si le nombre de joueurs est valide (au moins 2)
     if (isNaN(nombreJoueurs) || nombreJoueurs < 2) {
         document.getElementById("errorMessage").textContent = "Veullez entrer un nombre de joueurs valide (au moins 2)."
         return
-    } 
+    }
+    
+    // Sépare les prénoms et les stocke dans le tableau playerNames
+    playerNames = namesInput.split(",").map(name => name.trim())
+
+    // Vérifie si le nombre de joueurs est valide au nombre de prénom
+    if (playerNames.length !== nombreJoueurs) {
+        document.getElementById("errorMessage").textContent = `Veuillez entrer exactement ${nombreJoueurs} prénoms, séparés par des virgules.`
+        return
+    }
 
     // Cache la config du jeu et affiche l'interfce de jeu
     document.querySelector(".game-setup").style.display = "none"
     document.querySelector(".game").style.display = "block"
     document.getElementById("remainingMatches").textContent = totalAllumette
-    document.getElementById("playerNumber").textContent = joueur
+    document.getElementById("playerNumber").textContent = playerNames[joueur - 1]
     document.getElementById("errorMessage").textContent = ""
 }
 
@@ -53,7 +64,7 @@ function removeMatches() {
     
     // Vérifie si toutes les allumettes sont prises, + fin du jeu
     if (totalAllumette === 0) {
-        document.getElementById("gameStatus").textContent = `Joueur ${joueur}! Tu n'as pas de chance ! C'est perdu !`
+        document.getElementById("gameStatus").textContent = `${playerNames[joueur - 1]} ! Tu n'as pas de chance ! C'est perdu !`
         document.getElementById("currentPlayer").style.display = "none"
         document.getElementById("removeMatches").style.display = "none"
         document.getElementById("restartButton").style.display = "inline"
@@ -62,7 +73,7 @@ function removeMatches() {
     
     // Change de joueur
     joueur = (joueur % nombreJoueurs) + 1
-    document.getElementById("playerNumber").textContent = joueur    
+    document.getElementById("playerNumber").textContent = playerNames[joueur - 1]    
 }
 
 // Ajout d'un écouteur d'évenement pour cliquer sur "Entrée" pour la button Retirer
@@ -89,6 +100,7 @@ function restartGame() {
     totalAllumette = 50
     joueur = 1
     nombreJoueurs = 0
+    playerNames = []
 
     // Réinitialise l'interface utilisateur
     document.querySelector(".game-setup").style.display = "block"
@@ -99,6 +111,7 @@ function restartGame() {
     document.getElementById("gameStatus").textContent = ""
     document.getElementById("errorMessage").textContent = ""
     document.getElementById("players").value = ""
+    document.getElementById("playerName").value = ""
     document.getElementById("removeMatches").value = ""
 }
 
